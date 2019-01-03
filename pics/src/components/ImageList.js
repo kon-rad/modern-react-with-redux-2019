@@ -1,11 +1,12 @@
 import React from 'react';
+require('./ImageList.css');
 
 const ImageList = (props) => {
-  const images = props.images.map((image) => {
-    return <img src={image.urls.regular} />
+  const images = props.images.map(({ urls, description, id }) => {
+    return <img alt={description} key={id} src={urls.regular} />
   })
   return (
-    <div>{images}</div>
+    <div className={"image-list"}>{images}</div>
   )
 };
 
