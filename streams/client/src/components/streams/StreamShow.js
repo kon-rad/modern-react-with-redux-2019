@@ -1,7 +1,7 @@
 import React from 'react';
+import flv from 'flv.js';
 import { connect } from 'react-redux';
 import { fetchStream } from '../../actions';
-import flv from 'flv.js';
 
 class StreamShow extends React.Component {
   constructor(props) {
@@ -20,6 +20,10 @@ class StreamShow extends React.Component {
     this.buildPlayer();
   }
 
+  componentWillUnmount() {
+    this.player.destroy();
+  }
+
   buildPlayer() {
     if (this.player || !this.props.stream) {
       return;
@@ -28,9 +32,9 @@ class StreamShow extends React.Component {
     const { id } = this.props.match.params;
     this.player = flv.createPlayer({
       type: 'flv',
-      url: `http://locahost:8000/live/${id}.flv`
+      url: `http://localhost:8000/live/${id}.flv`
     });
-    this.player.attachMediaElement(this.videoRef);
+    this.player.attachMediaElement(this.videoRef.current);
     this.player.load();
   }
 
@@ -47,7 +51,7 @@ class StreamShow extends React.Component {
         <h1>{title}</h1>
         <h5>{description}</h5>
       </div>
-    )
+    );
   }
 }
 
@@ -55,4 +59,7 @@ const mapStateToProps = (state, ownProps) => {
   return { stream: state.streams[ownProps.match.params.id] };
 };
 
-export default connect(mapStateToProps, { fetchStream })(StreamShow);
+export default connect(
+  mapStateToProps,
+  { fetchStream }
+)(StreamShow);
