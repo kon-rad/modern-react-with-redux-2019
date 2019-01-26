@@ -1,7 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { createStream } from '../../actions';
-import { connect } from 'react-redux';
 
 class StreamForm extends React.Component {
   renderError = ({ error, touched }) => {
@@ -12,7 +10,7 @@ class StreamForm extends React.Component {
         </div>
       )
     }
-  }
+  };
 
   renderInput = ({ input, label, meta }) => {
     const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
